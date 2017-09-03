@@ -1,8 +1,9 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
-  entry: './src/main.js',
+  entry: ['babel-polyfill','./src/main.js'],
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -15,29 +16,58 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           loaders: {
-            // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
-            // the "scss" and "sass" values for the lang attribute to the right configs here.
-            // other preprocessors should work out of the box, no loader config like this necessary.
-            'scss': 'vue-style-loader!css-loader!sass-loader',
-            'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-          }
-          // other vue-loader options go here
+            'scss': ExtractTextPlugin.extract({
+              use: 'css-loader!sass-loader'
+            }),
+            'sass': ExtractTextPlugin.extract({
+              use: 'css-loader!sass-loader'
+            })
+          },
+          extractCSS: true
         }
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
+        use: ExtractTextPlugin.extract({
+          use: 'css-loader'
+        })
       },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader', // translates CSS into CommonJS modules
+            },
+            {
+              loader: 'postcss-loader', // Run post css actions
+              options: {
+                plugins: function () { // post css plugins, can be exported to postcss.config.js
+                  return [
+                    require('precss'),
+                    require('autoprefixer')
+                  ];
+                }
+              }
+            },
+            {
+              loader: 'sass-loader' // compiles SASS to CSS
+            }
+          ]
+          // use: ['sass-loader', 'postcss-loader', 'css-loader']
+        })
+      },
+      // {
+      //   test: /\.(eot|ttf|woff)$/,
+      //   loader: "file-loader"
+      // },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
@@ -50,15 +80,24 @@ module.exports = {
       'vue$': 'vue/dist/vue.esm.js'
     }
   },
+  // externals: {
+  //   jquery: 'jQuery'
+  // },
   plugins: [
+    new ExtractTextPlugin('styles.css'),
     new webpack.ProvidePlugin({
-        $: 'zepto-webpack'
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default']
     })
   ],
+
   devServer: {
     historyApiFallback: true,
     noInfo: true
   },
+  
   performance: {
     hints: false
   },

@@ -1,73 +1,40 @@
-<template>
-  <div id="app">
-    <navbar :titles="titles" 
-      :currentItemIndex="currentFunctionIndex"
-      @tabChange="changeFunction">
-    </navbar>
+<template lang="pug">
+div
+  navbar
+  #vpaTest 12345
+  div.main-panel
+    router-view
 
-    <horizontalSwitcher :contents="contents" 
-      :currentViewIndex="currentFunctionIndex">
-    </horizontalSwitcher>
-  </div>
 </template>
 <script>
-  import navbar from './Components/Navbar/Navbar.vue'
-  import horizontalSwitcher from './Components/HorizontalSwitcher/HorizontalSwitcher.vue'
-  import accounts from './Components/Accounts/Accounts.vue'
-  import keygens from './Components/Keygens/Keygens.vue'
-  import randomPasswordGenerator from './Components/RandomPasswordGenerator/RandomPasswordGenerator.vue'
+  import Vue from 'vue'
+
+  import store from './store/index'
+  import Navbar from './frameworks/Navbar.vue'
+  import router from './routes'
 
   export default {
     name: 'app',
-    data () {
-      return {
-        functions: [
-          {
-            title: '账户信息',
-            content: accounts
-          },{
-            title: '秘钥管理',
-            content: keygens
-          },{
-            title: '密码生成',
-            content: randomPasswordGenerator
-          }
-        ], //功能列表
-        currentFunctionIndex: 0 //当前显示的功能
-      }
-    },
-    computed:{
-      titles: function(){
-        return this.functions.map((el)=>el.title)
-      },
-      contents: function(){
-        return this.functions.map((el)=>el.content)
-      }
-    },
-    methods:{
-      changeFunction:function(val){
-        this.currentFunctionIndex = val
-      }
-    },
-    
-    components:{
-      'navbar': navbar,
-      'horizontalSwitcher': horizontalSwitcher
+    router,
+    store,
+    components: {
+      navbar: Navbar
     }
   }
 </script>
-
 <style lang="scss">
 
-@import "base";
+$panelWidth: 680px;
 
-#app {
-  font-family: Roboto, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  width:100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
+@media screen and (min-width: $panelWidth)  {
+  #navbar{
+    margin-bottom: 1em;
+  }
+}
+.main-panel{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $panelWidth;
+  overflow-x: hidden;
 }
 </style>
