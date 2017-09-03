@@ -1,7 +1,6 @@
 <template lang="pug">
 div
   navbar
-  #vpaTest 12345
   div.main-panel
     router-view
 
