@@ -1,0 +1,7 @@
+background:#ff5f5f
+background:#fba45b
+background:#f6cc67
+background:#60cb68
+background:#33baef
+background:#d38adb
+background:#a4a4a7

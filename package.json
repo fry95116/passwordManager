@@ -28,6 +28,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
     "jquery": "^3.2.1",
+    "md5": "^2.2.1",
     "open-iconic": "^1.1.1",
     "popper.js": "^1.12.3",
     "qrcode-reader": "^1.0.2",

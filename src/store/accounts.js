@@ -1,50 +1,34 @@
 import Account from './Account'
 import {pull, push} from './storage'
-
+import md5 from 'md5'
 const ID_ACCOUNTS = 'accounts'
 
 export default {
   namespaced: true,
   state: {
-    data: null
+    /**
+     * 加密过的账户信息
+     * 格式:{HASH:Account.stringify(in)}
+     **/
+    data: deserialize(pull(ID_ACCOUNTS, '{}'))
   },
 
-  // getters: {
-  //   decrypted(){
-  //     return this.data
-  //   }
-  // },
   mutations: {
-    /**
-     * 传入秘钥解密信息
-     * @param {RSAKey} primaryKey - 用于解密的私钥
-     */
-    unlock(state, {primaryKey}){
-      state.data = deserialize(pull(ID_ACCOUNTS, '[]'))
-    },
-    /**
-     * 清除明文
-     */
-    lock(state){
-      state.data = null
-    },
     /**
      * 添加账户信息
      * @param {Account} newAccount - 新的账户信息
      */
     add(state, {newAccount}) {
-      // if(!(newAccount instanceof Account))
-      //   throw('newAccount must be a instance of Account')
-      //main proc
-      let pos = _.findIndex(state.data, el=>el.name === newAccount.name)
-      if(pos !== -1) return
-
+      let ID = md5(newAccount.name)
+      if(!_.isUndefined(state.data[ID])) throw new Error('Account exist')
+      
       let now = _.now()
       newAccount.time_create = now
       newAccount.time_latestUpdate = now
-      state.data.push(newAccount)
 
-      push(ID_ACCOUNTS, serialize(state.data))
+      state.data[ID] = encrypt(Account.stringify(newAccount))
+
+      push(ID_ACCOUNTS, JSON.stringify(state.data))
     },
     
     remove(state, {name}) {
@@ -72,7 +56,7 @@ export default {
 
 /**
  * 序列化Accounts序列
- * @param {Account[]} data - 账户信息序列
+ * @param {string[]} data - 加密过的账户信息序列
  * @return {string} - 序列化后的数据 
  */
 function serialize(data){
@@ -82,12 +66,18 @@ function serialize(data){
 /**
  * 反序列化Accounts序列
  * @param {string} data - 序列化的数据
- * @return {Account[]} - 账户信息序列 
+ * @return {string[]} - 账户信息序列 
  */
 function deserialize(data){
-  let res = JSON.parse(data)
-  if(_.isArray(res)){
-    return _.map(res, el=>new Account(el))
+  let src = ''
+  try{
+    src = JSON.parse(data)
   }
-  else throw new Error('data is not a Array')
+  catch(e){
+    throw new Error(`error on parsing: ${e.msg}`)
+  }
+  if(!_.isObject(src)) throw new Error('error on parsing: type error') 
+  if(_.find(src, value=>!_.isString(value))) throw new Error('error on parsing: type error')
+  
+  return res
 }
