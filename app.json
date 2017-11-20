@@ -1,0 +1,44 @@
+{
+    "pages": [
+        "pages/welcome/welcome",
+        "pages/pwList/pwList",
+        "pages/newPassword/newPassword",
+        "pages/settings/settings",
+        "pages/pwList/detail/detail",
+        "pages/randomPasswordGenerator/randomPasswordGenerator",
+        "pages/settings/export/export",
+        "pages/settings/import/import",
+        "pages/settings/newChiper/newChiper"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#333138",
+        "navigationBarTitleText": "Password Manager",
+        "navigationBarTextStyle": "light",
+        "backgroundColor": "#efeff4"
+    },
+    "tabBar": {
+        "backgroundColor": "#333138",
+        "color": "#999",
+        "selectedColor": "#FFFFFF",
+        "position": "top",
+        "list": [
+            {
+                "pagePath": "pages/pwList/pwList",
+                "text": "密码列表"
+            },
+            {
+                "pagePath": "pages/newPassword/newPassword",
+                "text": "添加信息"
+            },
+            {
+                "pagePath": "pages/randomPasswordGenerator/randomPasswordGenerator",
+                "text": "随机密码"
+            },
+            {
+                "pagePath": "pages/settings/settings",
+                "text": "设置"
+            }
+        ]
+    }
+}

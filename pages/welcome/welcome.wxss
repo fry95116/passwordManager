@@ -1,0 +1,15 @@
+/* pages/welcome/welcome.wxss */
+
+.title{
+  text-align: center;
+  font-size: 32px;
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+.sub-title{
+  text-align: center;
+  font-size: 16px;
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}

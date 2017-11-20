@@ -1,0 +1,45 @@
+<view>
+  <view class="weui-cells__title">锁定时间（单位：秒）</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_select">
+      <view class="weui-cell__bd">
+        <picker bindchange="durationChanging" value="{{duration}}" range="{{durations}}">
+            <view class="weui-select">{{duration}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <!-- <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+          <input class="weui-input" type="number" value="{{duration}}"
+                 placeholder="单位：秒" bindinput="durationTyping"/>
+      </view>
+    </view>
+  </view> -->
+  <!-- <view class="weui-cells__tips">私钥在内存中驻留的最长时间（单位：秒）</view> -->
+  <view class="weui-cells__title">密钥管理</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <view class="weui-cell__bd">更换密钥</view>
+      <view class="weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+
+
+  <view class="weui-cells__title">数据存取</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="toExport">
+      <view class="weui-cell__bd">导出</view>
+      <view class="weui-cell__ft_in-access"></view>
+    </view>
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="toImport">
+      <view class="weui-cell__bd">导入</view>
+      <view class="weui-cell__ft_in-access"></view>
+    </view>
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="clearCache">
+      <view class="weui-cell__bd">清除当前数据缓存</view>
+      <view class="weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+</view>

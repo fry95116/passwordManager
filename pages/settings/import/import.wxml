@@ -1,0 +1,15 @@
+<!--pages/welcome/import/import.wxml-->
+<view>
+  <view class="weui-cells__title">复制内容到此处</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" value="{{source}}" maxlength="-1" bindinput="onSourceInput"/>
+      </view>
+    </view>
+  </view>
+
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="primary" bindtap="onImport">导入</button>
+  </view>
+</view>

@@ -1,0 +1,14 @@
+<!--pages/welcome/welcome.wxml-->
+<view>
+  <view class="title">
+    <text>欢迎使用</text>
+  </view>
+  <!-- <view class="sub-title">
+    <text>Password Manager</text>
+  </view> -->
+  <view class="sub-title" wx:if="{{!isFirstLoading}}">数据加载中。。。</view>
+  <view class="user-case weui-btn-area" wx:else>
+    <button class="weui-btn" type="primary" bindtap="toNewChiper">我是第一次使用</button>
+    <button class="weui-btn" type="primary" bindtap="toImport">导入已有数据</button>
+  </view>
+</view>

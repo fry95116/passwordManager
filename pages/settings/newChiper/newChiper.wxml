@@ -1,0 +1,51 @@
+<!--pages/welcome/newChiper/newChiper.wxml-->
+<view>
+  <view class="weui-cells__title">加密算法</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_select">
+      <view class="weui-cell__bd">
+        <picker bindchange="algorithmChanging" value="{{algorithmIndex}}" range="{{algorithms}}" range-key="title">
+            <view class="weui-select">{{chiperName}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="primary" plain="true" bindtap="genQRCode">生成密钥</button>
+  </view>
+  <view wx:if="{{isGenerating || newChiper}}">
+    <view class="qrcode-content">
+      <view hidden="{{!isGenerating}}">
+        <view class="ball-grid-pulse">
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+          <view class="circle"></view>
+        </view>
+        <view class="subTitle">密钥生成中，请稍后。。。</view>
+
+      </view>
+      <view hidden="{{isGenerating}}">
+        <canvas class="qrcode" canvas-id="qrcode"></canvas>
+        <view class="warning weui-cells__tips">
+          <view style="font-size: 150%; font-weight: bold; text-align:center;">WARNING</view>
+          <view style="margin-top: 0.5em;">
+            务必将二维码打印并存放在安全的地方
+            绝对不要长时间保存在相册中
+          </view>
+          <view class="weui-btn-area" wx:if="{{!disable_save}}">
+            <button class="weui-btn" type="warn" bindtap="saveToAlbum">保存到用户相册</button>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" disabled="{{disable_ok}}" bindtap="setChiper">使用该密钥</button>
+    </view>
+  </view>
+</view>
