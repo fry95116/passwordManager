@@ -21,18 +21,37 @@ import App from './App.vue'
 
 $(document).ready(()=>{
   $('[data-toggle="tooltip"]').tooltip()
-    if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices){
-      navigator.mediaDevices.enumerateDevices()
-      .then(function(devices) {
-        devices.forEach(function(device) {
-          alert(device.kind + ": " + device.label +
-                      " id = " + device.deviceId);
-        });
-      })
-    }else{
-      alert('navigator.mediaDecvices:' + typeof(navigator.mediaDecvices))
-      alert('navigator.mediaDevices.enumerateDevices' + typeof(navigator.mediaDevices.enumerateDevices))
-    }
+
+  var mediaDevices = null
+  mediaDevices = navigator.mediaDevices || MediaDevices
+  if(mediaDevices != null){
+    navigator.mediaDevices.enumerateDevices()
+    .then(function(devices) {
+      devices.forEach(function(device) {
+        alert(device.kind + ": " + device.label +
+                    " id = " + device.deviceId);
+      });
+    })
+  }else{
+    
+    alert('MediaDevice: ' + typeof(MediaDevice))
+    alert('MediaDevice.enumerateDevices: ' + typeof(MediaDevice))
+
+    alert('navigator.mediaDecvices:' + typeof(navigator.mediaDecvices))
+    alert('navigator.mediaDevices.enumerateDevices' + typeof(navigator.mediaDevices.enumerateDevices))
+  }
+  // if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices){
+  //   navigator.mediaDevices.enumerateDevices()
+  //   .then(function(devices) {
+  //     devices.forEach(function(device) {
+  //       alert(device.kind + ": " + device.label +
+  //                   " id = " + device.deviceId);
+  //     });
+  //   })
+  // }else{
+  //   alert('navigator.mediaDecvices:' + typeof(navigator.mediaDecvices))
+  //   alert('navigator.mediaDevices.enumerateDevices' + typeof(navigator.mediaDevices.enumerateDevices))
+  // }
 
   // let support1 = typeof MediaDevices.getUserMedia
   // let support2 = typeof navigator.getUserMedia
