@@ -22,10 +22,30 @@ import App from './App.vue'
 $(document).ready(()=>{
   $('[data-toggle="tooltip"]').tooltip()
 
+  // var mediaDevices = null
+  // mediaDevices = navigator.mediaDevices || MediaDevices
+  // if(mediaDevices != null){
+  //   navigator.mediaDevices.enumerateDevices()
+  //   .then(function(devices) {
+  //     devices.forEach(function(device) {
+  //       alert(device.kind + ": " + device.label +
+  //                   " id = " + device.deviceId);
+  //     });
+  //   })
+  // }else{
+    
+  //   alert('MediaDevice: ' + typeof(MediaDevice))
+  //   alert('MediaDevice.enumerateDevices: ' + typeof(MediaDevice))
+
+  //   alert('navigator.mediaDecvices:' + typeof(navigator.mediaDecvices))
+  //   alert('navigator.mediaDevices.enumerateDevices' + typeof(navigator.mediaDevices.enumerateDevices))
+  // }
+
+  alert('support test')
   var mediaDevices = null
   mediaDevices = navigator.mediaDevices || MediaDevices
   if(mediaDevices != null){
-    navigator.mediaDevices.enumerateDevices()
+    mediaDevices.enumerateDevices()
     .then(function(devices) {
       devices.forEach(function(device) {
         alert(device.kind + ": " + device.label +
