@@ -5,11 +5,7 @@
   "main": "index.js",
   "author": "tastycarb",
   "private": true,
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "dev2": "cross-env NODE_ENV=development webpack-dev-server",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fry95116/passwordManager.git"
@@ -17,7 +13,6 @@
   "keywords": [
     "password",
     "rsa",
-    "ecc",
     "web"
   ],
   "license": "MIT",
@@ -26,38 +21,22 @@
   },
   "homepage": "https://github.com/fry95116/passwordManager#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-beta",
-    "jquery": "^3.2.1",
-    "md5": "^2.2.1",
-    "open-iconic": "^1.1.1",
-    "popper.js": "^1.12.3",
-    "qrcode-reader": "^1.0.2",
-    "vue": "^2.3.3",
-    "vue-clipboard2": "0.0.6",
-    "vue-easy-toast": "^1.0.2",
-    "vue-router": "^2.7.0",
-    "vuex": "^2.3.1"
+    "jquery": "^3.3.1",
+    "routes": "^2.1.0",
+    "sha256": "^0.2.0",
+    "web-router": "^1.2.1"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
-    "babel-core": "^6.0.0",
-    "babel-loader": "^6.0.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.5.1",
-    "cross-env": "^3.0.0",
-    "css-loader": "^0.25.0",
-    "expose-loader": "^0.7.3",
-    "extract-text-webpack-plugin": "^2.1.2",
-    "file-loader": "^0.9.0",
-    "node-sass": "^4.5.0",
-    "postcss-loader": "^2.0.6",
-    "precss": "^2.0.0",
-    "pug": "^2.0.0-rc.3",
-    "sass-loader": "^5.0.1",
-    "style-loader": "^0.18.2",
-    "vue-loader": "^12.1.0",
-    "vue-template-compiler": "^2.3.3",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.4.5"
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.3",
+    "gulp-uglify": "^3.0.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }
