@@ -21,11 +21,15 @@
   },
   "homepage": "https://github.com/fry95116/passwordManager#readme",
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0"
+    "jquery": "^3.3.1",
+    "routes": "^2.1.0",
+    "sha256": "^0.2.0",
+    "web-router": "^1.2.1"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
     "browserify": "^16.2.2",
     "gulp": "^3.9.1",

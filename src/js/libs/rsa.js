@@ -167,7 +167,7 @@ class RSAKey {
         var q = this._doPrivate(this.q).toString(16)
         var e = new Number(this.e).toString(16)
         
-        return base64.fromHex(p) + '\n' + base64.fromHex(q) + '\n' + e
+        return base64.fromHex(p) + '_' + base64.fromHex(q) + '_' + e
     }
 
     setPrivate_encrypted(str){
@@ -297,7 +297,8 @@ class RSAKey {
     // }
 }
 
-window.RSAKey = RSAKey
+if(module.exports) module.exports = RSAKey
+else if(windows) window.RSAKey = RSAKey
 
 // convert a (hex) string to a bignum object
 function parseBigInt(str, r) {
