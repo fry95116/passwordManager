@@ -1,43 +1,120 @@
+@keyframes slide-in-left{
+    from{transform: translateX(-100%)}
+    to{transform: translateX(0%)}
+}
+
+@keyframes slide-out-left{
+    from{transform: translateX(0%)}
+    to{transform: translateX(-100%)}
+}
+
+@keyframes slide-in-right{
+    from{transform: translateX(100%)}
+    to{transform: translateX(0%)}
+}
+
+@keyframes slide-out-right{
+    from{transform: translateX(0%)}
+    to{transform: translateX(100%)}
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.slide-leftIn-enter-active, .slide-leftIn-leave-active{
+    transition: transform 0.3s ease-out;
+}
+
+.slide-leftIn-enter{
+    transform: translateX(-100%);
+}
+
+.slide-leftIn-enter-to, .slide-leftIn-leave{
+    transform: translateX(0%);
+}
+
+.slide-leftIn-leave-to{
+    transform: translateX(100%);
+}
+
+
+
+.slide-rightIn-enter-active, .slide-rightIn-leave-active{
+    transition: transform 0.3s ease-in;
+}
+
+.slide-rightIn-enter{
+    transform: translateX(100%);
+}
+
+.slide-rightIn-enter-to, .slide-rightIn-leave{
+    transform: translateX(0%);
+}
+
+.slide-rightIn-leave-to{
+    transform: translateX(-100%);
+}
+
+@keyframes slide-in-left{
+    from{transform:translateX(-100%)}
+    to{transform:translateX(0%)}
+}
+
 html,body{
+    display:flex;
+    display:-webkit-flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     position: relative;
     margin: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-nav{
-    position: fixed;
-    width: 100%;
-    background-color: #ff0;
-}
-
-.title{
+/* .title{
     width: 100%;
     padding: 0.7em;
     font-size: large;
-}
+} */
 
 .major-function{
+    position: absolute;
+    left:0;
+    top:0;
+    /* margin-top: 55px; */
     width: 100%;
-    display: none;
+    min-height:100%;
     background-color: #FEFEFF;
 }
 
-
-.action-bar{
+#action-bar{
+    
     box-sizing: border-box;
     display: flex;
     display: -webkit-flex; /* Safari */
     justify-content: space-between;
     align-items: flex-end;
+
     width: 100%;
-    height: 40px;
+    height: 55px;
     padding-left: 21px;
     padding-right: 21px;
+    padding-bottom: 15px;
+    background-color: #FEFEFF;
 }
-
-.action-bar .btn-right{
+#action-bar .title{
+    flex-grow: 1;
+    font-weight: bold;
+    color: #FF4351;
+    font-size: 17px;
+}
+#action-bar .btn{
     outline: none;
     border: none;
     padding: 0;
@@ -46,12 +123,22 @@ nav{
     color: #1b9af7;
 }
 
+#major-functions{
+    flex-grow: 1;
+
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .title-bar{
     box-sizing: border-box;
     display: flex;
     display: -webkit-flex; /* Safari */
     justify-content: space-between;
-    padding: 20px 21px;
+    padding: 10px 21px 20px;
 
 }
 
@@ -62,20 +149,18 @@ nav{
     font-weight: normal;
 }
 
-.tool-bar{
-    position: fixed;
+#tool-bar{
     display: flex;
     display: -webkit-flex; /* Safari */
     justify-content: space-between;
 
-    bottom: 0;
     width: 100%;
     height: 45px;
     background-color: #fff;
     border-top: 1px #ccc solid;
 }
 
-.tool-bar .btn{
+#tool-bar .btn{
     flex-grow: 1;
     justify-content: center;
     align-items: center;
@@ -86,11 +171,54 @@ nav{
     background-color: transparent;
 }
 
-.tool-bar .btn img{
+#tool-bar .btn img{
     width: 20px;
     height: 20px;
 }
 
+
+
+.input-group{
+    padding-left: 26px;
+    padding-right: 26px;
+    margin-bottom: 27px;
+}
+
+.input-group label{
+    display: block;
+    margin-left: 2px;
+    font-size: 14px;
+}
+
+.input-group>.input-wrapper{
+    box-sizing: border-box;
+    margin:6px 2px 0px;
+}
+
+.input-group input[type="text"]{
+    outline: none;
+    border: none;
+    width: 100%;    
+    border-bottom: 1px solid #ccc;
+    padding: 8px 0px;
+    font-size: 18px;
+}
+
+.input-group input[type="text"]:focus{
+    border-bottom: 2px solid #1b9af7;
+
+}
+.input-group .btn-block{
+    outline: none;
+    border-radius: 8px;
+    border: none;
+    width: 100%;
+    height: 44px;
+    font-size: 17px;
+    background-color: #1B9AF7;
+
+    color: #fff;
+}
 #list-passwordBooks{
     margin: 0;
     padding: 0 16px;
@@ -111,27 +239,20 @@ nav{
 
 #list-passwordBooks .content{
     box-sizing:border-box;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ededed;
-    border-radius: 10px;
     width: 100%;
-    min-height: 117px;
     background-color: #fefeff;
 }
 
 #list-passwordBooks .content .overlap{
     display: flex;
-    flex-grow: 1;
     justify-content: center;
     align-items: center;
 
     border-radius: 8px;
     width: 100%;
-    height: 100%;
+    height: 117px;
     background-color: #ededed;
 }
-
 
 #list-passwordBooks .content .icon-bg{
     display: flex;

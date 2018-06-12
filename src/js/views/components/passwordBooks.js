@@ -1,33 +1,10 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Password Manager</title>
-        <meta name="viewport" content="width=device-width, user-scalable=no" />
-
-        <link rel="manifest" href="manifest.json" />
-        <link rel="stylesheet" type="text/css" href="index.css">
-        <!-- 截至ios11.3，暂时不支持manifest.icons -->
-        <link rel="apple-touch-icon" href="./img/e.png" type="image/png" />
-        <link rel="icon" href="./img/e.png" type="image/png" />
-    </head>
-    <body>
-        <nav id="action-bar"></nav>
-        <div id="major-functions">
-
-
-        </div>
-        <!-- <section id="newPasswordBook" class="major-function">
-            <div class="title-bar">
-                <h1 class="title-main">Create</h1>
-            </div>
-            <div class="">
-
-            </div>
-        </section>
+var passwordBooks = {
+    name: 'passwordBooks',
+    template:`
         <section id="passwordBooks" class="major-function" style="display:block;">
 
             <div class="title-bar">
-                <h1 class="title-main">PassowrdBooks</h1>
+                <h1 class="title-main">{{ title }}</h1>
             </div>
             <ul id="list-passwordBooks">
                 <li>
@@ -81,11 +58,28 @@
                     </div>
                 </li>
             </ul>
-
         </section>
-        <section id="settings" class="major-function">
-        </section> -->
-        <div id="tool-bar"></div>
-    </body>
-    <script src="index.js"></script>
-</html>
+    `,
+    data(){
+        return{
+            title: 'PasswordBooks'
+        }
+    },
+
+    activated(){
+
+        this.$emit('setTitle', this.title)
+        this.$emit('setActionBar', null, {text: 'Settings'})
+        this.$emit('setToolBar',[
+            {
+                icon: './img/newPasswordBook.svg',
+                callback: ()=>{
+                    this.$emit('route', 'newPasswordBook')
+                }
+            },
+            {icon: './img/edit.svg'}
+        ])
+    }
+}
+
+module.exports = passwordBooks

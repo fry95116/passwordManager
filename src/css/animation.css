@@ -1,0 +1,60 @@
+@keyframes slide-in-left{
+    from{transform: translateX(-100%)}
+    to{transform: translateX(0%)}
+}
+
+@keyframes slide-out-left{
+    from{transform: translateX(0%)}
+    to{transform: translateX(-100%)}
+}
+
+@keyframes slide-in-right{
+    from{transform: translateX(100%)}
+    to{transform: translateX(0%)}
+}
+
+@keyframes slide-out-right{
+    from{transform: translateX(0%)}
+    to{transform: translateX(100%)}
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
+.slide-leftIn-enter-active, .slide-leftIn-leave-active{
+    transition: transform 0.3s ease-out;
+}
+
+.slide-leftIn-enter{
+    transform: translateX(-100%);
+}
+
+.slide-leftIn-enter-to, .slide-leftIn-leave{
+    transform: translateX(0%);
+}
+
+.slide-leftIn-leave-to{
+    transform: translateX(100%);
+}
+
+
+
+.slide-rightIn-enter-active, .slide-rightIn-leave-active{
+    transition: transform 0.3s ease-in;
+}
+
+.slide-rightIn-enter{
+    transform: translateX(100%);
+}
+
+.slide-rightIn-enter-to, .slide-rightIn-leave{
+    transform: translateX(0%);
+}
+
+.slide-rightIn-leave-to{
+    transform: translateX(-100%);
+}
