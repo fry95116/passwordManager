@@ -2,7 +2,7 @@
   "name": "Password Manager",
   "short_name": "Pm",
   "display": "standalone",
-  "start_url": "/PasswordManager",
+  "start_url": "/passwordManager",
   "theme_color": "#313131",
   "background_color": "#313131",
   "icons": [
