@@ -312,6 +312,13 @@ html,body{
     color: #fff;
 }
 
+.input-group a.btn-block{
+    display:block;
+    text-decoration: none;
+    text-align: center;
+    line-height: 44px;
+}
+
 .QRcode-wrapper, .warning-msg{
     padding-left: 26px;
     padding-right: 26px;

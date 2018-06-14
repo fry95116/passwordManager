@@ -55,7 +55,7 @@ var newPasswordBook = {
                         </p>
                     </div>
                     <div class="input-group">
-                        <button class="btn-block" @click="generateQRcode">Save</button>
+                        <a class="btn-block" v-bind:href="QRcode" download="qrcode.jpg">Save</a>
                         <button class="btn-block btn-cancel" @click="showQRcode=false">Not yet</button>
                     </div>
                 </div>
@@ -92,7 +92,9 @@ var newPasswordBook = {
             var keygen = newKeygen.getPrivate_encrypted()
 
             try{
-                var dataUrl = await QRcode.toDataURL(keygen)
+                var dataUrl = await QRcode.toDataURL(keygen,{
+                    errorCorrectionLevel:this.errorCorrectionLevel
+                })
                 this.QRcode = dataUrl
     
                 this.generating = false
