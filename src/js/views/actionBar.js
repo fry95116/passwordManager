@@ -11,7 +11,7 @@ var actionBar = new Vue({
             </button>
             <div v-else class="placeholder"></div>
             <transition name="fade">
-                <div v-if="title !== ''" class="title" v-bind:style="{'text-align': titleAlign}">{{ title }}</div>
+                <div v-if="showTitle" class="title" v-bind:style="{'text-align': titleAlign}">{{ title }}</div>
             </transition>
             <button v-if="button_right" class="btn"
                     @click="$_executeCallback_right">
@@ -22,6 +22,7 @@ var actionBar = new Vue({
     `,
     data:{
         visiable: true,
+        showTitle: false,
         title:'',
         button_left: null,
         button_right: null

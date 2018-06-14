@@ -25,6 +25,15 @@
     opacity: 0;
 }
 
+
+.fade-swap-enter-active, .fade-swap-leave-active {
+    position: absolute;
+    transition: opacity 0.3s;
+}
+.fade-swap-enter, .fade-swap-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+
 .slide-leftIn-enter-active, .slide-leftIn-leave-active{
     transition: transform 0.3s ease-out;
 }

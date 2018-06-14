@@ -17,21 +17,17 @@ var mainFunctions = new Vue({
     template: `
         <div id="major-functions" @scroll="toggleTitleIfNecessary">
             <transition v-bind:name="transitionName">
-                <keep-alive>
-                    <component v-bind:is="currentFrame" 
-                        @setTitle="setTitle"
-                        @setActionBar="setActionBar" 
-                        @setToolBar="setToolBar"
-                        @route="routeTo">
-                    </component>
-                </keep-alive>
+                <component v-bind:is="currentFrame" 
+                    @setActionBar="setActionBar" 
+                    @setToolBar="setToolBar"
+                    @route="routeTo">
+                </component>
             </transition>
 
         </div>
     `,
     data:{
         currentIndex: 0,
-        currentTitle: '',
         frameNames: Object.keys(components),
         transitionName:'',
         transitions:{
@@ -46,20 +42,13 @@ var mainFunctions = new Vue({
     },
     methods:{
         toggleTitleIfNecessary(){
-            if(this.$el.scrollTop > 47)
-                actionBar.title = this.currentTitle
-            else
-                actionBar.title = ''
+                actionBar.showTitle = this.$el.scrollTop > 47
         },
 
-        setTitle(title){
-            this.currentTitle = title
-        },
-
-        setActionBar(button_left, button_right){
-            actionBar.button_left = button_left || null
-            actionBar.button_right = button_right || null
-            // console.log('test')
+        setActionBar(option){
+            actionBar.title = option.title || ''
+            actionBar.button_left = option.button_left || null
+            actionBar.button_right = option.button_right || null
         },
 
         setToolBar(buttons){

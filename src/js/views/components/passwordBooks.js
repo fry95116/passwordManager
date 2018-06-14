@@ -66,10 +66,13 @@ var passwordBooks = {
         }
     },
 
-    activated(){
-
-        this.$emit('setTitle', this.title)
-        this.$emit('setActionBar', null, {text: 'Settings'})
+    mounted(){
+        this.$emit('setActionBar', {
+            title: this.title,
+            button_left: null,
+            button_right: {text: 'Settings'}
+        })
+        
         this.$emit('setToolBar',[
             {
                 icon: './img/newPasswordBook.svg',
