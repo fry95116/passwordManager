@@ -16,8 +16,9 @@ var newPasswordBook = {
                 <div v-if="!showQRcode" key="edit">
                     <div class="input-group">
                         <label>Name</label>
-                        <div class="input-wrapper">
-                            <input type="text" placeholder="PasswordBook's name">
+                        <div class="input-wrapper" v-bind:class="{'with-error': error_name}">
+                            <input type="text" placeholder="PasswordBook's name" v-model="name">
+                            <div class="msg-err">name required</div>
                         </div>
                     </div>
                     <div class="input-group">
@@ -46,6 +47,7 @@ var newPasswordBook = {
                 <div v-else key="preview">
                     <div class="QRcode-wrapper">
                         <img v-bind:src="QRcode">
+                        <div class="indicate">[Long press to save it</div>
                     </div>
                     <div class="warning-msg">
                         <h4>WARNING</h4>
@@ -55,8 +57,8 @@ var newPasswordBook = {
                         </p>
                     </div>
                     <div class="input-group">
-                        <a class="btn-block" v-bind:href="QRcode" download="qrcode.jpg">Save</a>
-                        <button class="btn-block btn-cancel" @click="showQRcode=false">Not yet</button>
+                        <button class="btn-block">I have saved it</button>
+                        <button class="btn-block btn-cancel" @click="showQRcode=false">Modify settings</button>
                     </div>
                 </div>
             </transition>
@@ -74,9 +76,12 @@ var newPasswordBook = {
                 Q:'Quartile',
                 H:'High'
             },
+            name: '',
             encryptAlgorithm:'RSA-1024',
             errorCorrectionLevel: 'M',
             QRcode: '',
+            
+            error_name: false,
             showQRcode: false,
             generating: false
         }
@@ -84,6 +89,13 @@ var newPasswordBook = {
 
     methods:{
         async generateQRcode(){
+            if(this.name === ''){
+                this.error_name = true
+                return
+            }
+            else this.error_name = false
+
+
             this.generating = true
             await this.$nextTick()
 
