@@ -1,4 +1,4 @@
-var RSAKey = require('./libs/rsa.js')
+var RSAKey = require('../libs/rsa.js')
 var sha256 = require('sha256')
 
 var KEY_LOCALSTORAGE = "PASSWORDBOOKS"
@@ -18,17 +18,23 @@ class PasswordBooks{
 
     /**
      * 创建密码本，并返回解密所需的私钥
+     * @param {string} name - 密码本的名称
+     * @param {RSAKey} keygen - 使用的密钥（可选）
      * @return
      */
-    create(name){
+    create(name, keygen){
         if(this._data[name] != null) throw new Error('name exists')
         var ret = {
             passwordBook:new PasswordBook(), 
             privateKey:null
         }
-        var keygen = new RSAKey()
-        // generate
-        keygen.generate(1024, '10001')
+
+        if(!(keygen instanceof RSAKey)){
+            var keygen = new RSAKey()
+            // generate
+            keygen.generate(1024, '10001')
+        }
+
     
         ret.privateKey = keygen.getPrivate_encrypted()
         ret.passwordBook._publicKey = keyen.getPublic()
@@ -96,4 +102,7 @@ class PasswordBook{
     }
 }
 
-if(module.exports) module.exports = new PasswordBooks()
+if(module.exports) {
+    module.exports.passwordBooks = new PasswordBooks()
+    module.exports.PasswordBook = PasswordBook
+}

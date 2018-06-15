@@ -1,6 +1,6 @@
 var QRcode = require('qrcode')
 var RSAKey = require('../../libs/rsa')
-
+var {passwordBooks} = require('../../models/passwordBooks')
 var dropDown = require('./dropdown')
 /* <input type="text" placeholder="RSA-1024">
 <span class="caret"></span> */
@@ -47,7 +47,7 @@ var newPasswordBook = {
                 <div v-else key="preview">
                     <div class="QRcode-wrapper">
                         <img v-bind:src="QRcode">
-                        <div class="indicate">[Long press to save it</div>
+                        <div class="indicate">[Long press to save it]</div>
                     </div>
                     <div class="warning-msg">
                         <h4>WARNING</h4>
@@ -79,14 +79,24 @@ var newPasswordBook = {
             name: '',
             encryptAlgorithm:'RSA-1024',
             errorCorrectionLevel: 'M',
-            QRcode: '',
+            
+            passwordBook_new: null,
             
             error_name: false,
             showQRcode: false,
             generating: false
         }
     },
-
+    computed:{
+        QRcode(){
+            if(this.passwordBook_new instanceof PasswordBook){
+                return this.passwordBook_new.getPrivate_encrypted()
+            }
+            else{
+                return ''
+            }
+        }
+    },
     methods:{
         async generateQRcode(){
             if(this.name === ''){
