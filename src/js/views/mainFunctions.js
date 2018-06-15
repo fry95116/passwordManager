@@ -31,8 +31,10 @@ var mainFunctions = new Vue({
         frameNames: Object.keys(components),
         transitionName:'',
         transitions:{
-            default:'slide-leftIn',
-            'newPasswordBook-passwordBooks':'slide-rightIn'
+            default:'fade',
+            'passwordBooks-newPasswordBook':'slide-rightIn',
+            'newPasswordBook-passwordBooks':'slide-leftIn',
+
         }
     },
     computed:{

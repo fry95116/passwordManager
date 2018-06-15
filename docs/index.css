@@ -343,7 +343,7 @@ html,body{
 }
 
 .QRcode-wrapper .indicate{
-    margin-top: -12px;
+    margin-top: -16px;
     text-align: center;
     font-weight: bold;
 }

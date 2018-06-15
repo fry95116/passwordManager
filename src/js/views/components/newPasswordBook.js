@@ -1,6 +1,6 @@
 var QRcode = require('qrcode')
 var RSAKey = require('../../libs/rsa')
-var {passwordBooks} = require('../../models/passwordBooks')
+var {passwordBooks, PasswordBook} = require('../../models/passwordBooks')
 var dropDown = require('./dropdown')
 /* <input type="text" placeholder="RSA-1024">
 <span class="caret"></span> */
@@ -40,14 +40,14 @@ var newPasswordBook = {
                         </div>
                     </div>
                     <div class="input-group">
-                        <button v-if="generating === false" class="btn-block" @click="generateQRcode">Generate Keygen</button>
-                        <button v-else class="btn-block" @click="generateQRcode">Generating...</button>
+                        <button class="btn-block" v-if="!generating" @click="generateKeygen">Generate Keygen</button>
+                        <button class="btn-block" v-else>Generating...</button>
                     </div>
                 </div>
                 <div v-else key="preview">
                     <div class="QRcode-wrapper">
-                        <img v-bind:src="QRcode">
-                        <div class="indicate">[Long press to save it]</div>
+                        <img v-bind:src="dataUrl_QRcode">
+                        <div class="indicate">[ Long press to save it ]</div>
                     </div>
                     <div class="warning-msg">
                         <h4>WARNING</h4>
@@ -57,7 +57,7 @@ var newPasswordBook = {
                         </p>
                     </div>
                     <div class="input-group">
-                        <button class="btn-block">I have saved it</button>
+                        <button class="btn-block" @click="createPasswordBook">I have saved it</button>
                         <button class="btn-block btn-cancel" @click="showQRcode=false">Modify settings</button>
                     </div>
                 </div>
@@ -80,59 +80,49 @@ var newPasswordBook = {
             encryptAlgorithm:'RSA-1024',
             errorCorrectionLevel: 'M',
             
-            passwordBook_new: null,
-            
+            keygen: new RSAKey(),
+            dataUrl_QRcode: '',
+
             error_name: false,
             showQRcode: false,
             generating: false
         }
     },
-    computed:{
-        QRcode(){
-            if(this.passwordBook_new instanceof PasswordBook){
-                return this.passwordBook_new.getPrivate_encrypted()
-            }
-            else{
-                return ''
-            }
-        }
-    },
     methods:{
-        async generateQRcode(){
+        generateKeygen(){
+            // 输入检查
             if(this.name === ''){
                 this.error_name = true
                 return
             }
             else this.error_name = false
 
-
+            // 生成新的密码本
             this.generating = true
-            await this.$nextTick()
-
-            var newKeygen = new RSAKey()
-            newKeygen.generate(1024, '10001')
-            var keygen = newKeygen.getPrivate_encrypted()
-
-            try{
-                var dataUrl = await QRcode.toDataURL(keygen,{
+            
+            setTimeout(()=>{
+                this.keygen.generate(1024, '10001')
+                QRcode.toDataURL(this.keygen.getPrivate_encrypted(), {
                     errorCorrectionLevel:this.errorCorrectionLevel
                 })
-                this.QRcode = dataUrl
-    
-                this.generating = false
-                await this.$nextTick()
-                
-                this.showQRcode = true
-            }
-            catch(err){
-                console.log(err)                
-                this.QRcode = ''
+                .then((dataUrl)=>{
+                    this.dataUrl_QRcode = dataUrl
+                    this.showQRcode = true
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    this.dataUrl_QRcode = ''
+                    this.showQRcode = false
+                })
+                .finally(()=>{
+                    this.generating = false
+                })
+            }, 20)
+        },
 
-                this.generating = false
-                await this.$nextTick()
-
-                this.showQRcode = false
-            }
+        createPasswordBook(){
+            passwordBooks.add(new PasswordBook(this.name, this.keygen))
+            this.$emit('route', 'passwordBooks')
         }
     },
 
