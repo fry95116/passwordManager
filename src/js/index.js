@@ -1,5 +1,3 @@
-var eventBus = require('./eventBus')
- 
 var Vue = require('vue')
 
 var actionBar = require('./views/actionBar')

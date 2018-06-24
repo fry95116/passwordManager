@@ -129,13 +129,13 @@ var newPasswordBook = {
     mounted(){
         this.$emit('setActionBar', {
             title: this.title,
-            button_left: {
-                text: '< Back',
+            button_right: {
+                text: 'Back >',
                 callback: ()=>{
                     this.$emit('route', 'passwordBooks')
                 }
             },
-            button_right: null
+            button_left: null
         })
         this.$emit('setToolBar', null)
     },

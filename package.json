@@ -24,6 +24,7 @@
     "vue": "vue/dist/vue.common.js"
   },
   "dependencies": {
+    "jsqr": "^1.0.4",
     "lodash.findindex": "^4.6.0",
     "lodash.isarray": "^4.0.0",
     "lodash.isfunction": "^3.0.9",

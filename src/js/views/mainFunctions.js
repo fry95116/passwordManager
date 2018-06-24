@@ -32,8 +32,8 @@ var mainFunctions = new Vue({
         transitionName:'',
         transitions:{
             default:'fade',
-            'passwordBooks-newPasswordBook':'slide-rightIn',
-            'newPasswordBook-passwordBooks':'slide-leftIn',
+            'passwordBooks-newPasswordBook':'slide-leftIn',
+            'newPasswordBook-passwordBooks':'slide-rightIn',
 
         }
     },

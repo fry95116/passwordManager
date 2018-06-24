@@ -427,3 +427,132 @@ html,body{
     width: 30px;
     height: 30px;
 }
+
+.QRreader-mask{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+
+.QRreader-mask video{
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+}
+
+.content-center{
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    left: 50%;
+}
+
+.QRreader-mask .aperture{
+    position: relative;
+    overflow: hidden;
+    border: 2px solid white;
+}
+
+.QRreader-mask .aperture .vertex{
+    position: absolute;
+    width: 10%;
+    height: 10%;
+}
+
+.QRreader-mask .aperture .vertex.left-top{
+    left: 0;
+    top: 0;
+    border-left: 4px solid white;
+    border-top: 4px solid white;
+}
+
+.QRreader-mask .aperture .vertex.right-top{
+    right: 0;
+    top: 0;
+    border-right: 4px solid white;
+    border-top: 4px solid white;
+}
+
+.QRreader-mask .aperture .vertex.left-bottom{
+    left: 0;
+    bottom: 0;
+    border-left: 4px solid white;
+    border-bottom: 4px solid white;
+}
+
+.QRreader-mask .aperture .vertex.right-bottom{
+    right: 0;
+    bottom: 0;
+    border-right: 4px solid white;
+    border-bottom: 4px solid white;
+}
+
+.QRreader-mask .aperture .scan-line{
+    position: absolute;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 10%;
+    animation: scan 1s ease-in-out infinite;
+
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 1))); 
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)); 
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)); 
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)); 
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)); 
+    FILTER: progid:DXImageTransform.Microsoft.Gradient(startColorStr=rgba(255, 255, 255, 0), endColorStr=rgba(255, 255, 255, 1));
+}
+
+.QRreader-mask .tips{
+    margin-top: 0.5em;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: smaller;
+}
+
+.QRreader-mask .btn{
+    position: absolute;
+    margin: 0;
+    outline: none;
+    border: none;
+    padding: 1em;
+    background: transparent;
+    color: white;
+    line-height: 1.0;
+}
+
+.QRreader-mask .btn-cancel{
+    left: 0;
+    top: 0;
+    font-size: large;
+}
+
+.QRreader-mask .btn-switch{
+    left: 0;
+    bottom: 0;
+    font-size: large;
+}
+
+.QRreader-mask .btn-album{
+    right: 0;
+    bottom: 0;
+    font-size: large;
+}
+
+@keyframes scan{
+    from{top:-10%;}
+    to{top:90%;}
+}
+
+#QRreader-file-input{
+    width: 0;
+    height: 0;
+    outline: none;
+}
