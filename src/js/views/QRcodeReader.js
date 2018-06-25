@@ -19,7 +19,7 @@ var QRcodeReader = new Vue({
                 <div class="tips">将二维码放入取景框中</div>
             </div>
             <button class="btn btn-cancel" @click="cancel">&lt; 返回</button>
-            <button v-if="btn_switchCamera" class="btn btn-switch" @click="switch">切换设备</button>
+            <button v-if="btn_switchCamera" class="btn btn-switch" @click="switchCamera">切换设备</button>
             <button v-if="btn_readFromAlbum" class="btn btn-album">相册</button>
 
             <canvas style="display:none"></canvas>
