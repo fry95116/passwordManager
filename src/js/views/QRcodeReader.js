@@ -24,7 +24,7 @@ var QRcodeReader = new Vue({
 
             <canvas style="display:none"></canvas>
             <input v-if="!support_UserMedia" class="fileReader-camera" type="file" accept="image/*" capture="camera">
-            <input v-if="readFromAlbum" class="fileReader-fileSystem" type="file" accept="image/*">
+            <input v-if="btn_readFromAlbum" class="fileReader-fileSystem" type="file" accept="image/*">
         </div>
         </transition>
     `,
@@ -46,8 +46,6 @@ var QRcodeReader = new Vue({
     methods:{
         async readQRcode(){
             if(this.support_UserMedia){
-                var mediaDevices = util.getMediaDevices()
-                // if (mediaDevices === null) throw new Error('mediaDevices API not supported')
                 await this.setCamera()
                 this.hidden = false
             }
@@ -72,6 +70,9 @@ var QRcodeReader = new Vue({
             // const CONSTRAINTS_DEFAULT = { video: true, audio: false }
             const CONSTRAINTS_CAMERA_FRONT = { video: { facingMode: 'user' }, audio: false }
             const CONSTRAINTS_CAMERA_BACK  = { video: { facingMode: 'environment' }, audio: false }
+
+            var mediaDevices = util.getMediaDevices()
+            if (mediaDevices === null) throw new Error('mediaDevices API not supported')
 
             // var constraints = CONSTRAINTS_DEFAULT
             var constraints = this.$_isFront ? CONSTRAINTS_CAMERA_FRONT : CONSTRAINTS_CAMERA_BACK
