@@ -18,6 +18,19 @@
     to{transform: translateX(100%)}
 }
 
+.scale-center-enter-active{
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.scale-center-leave-active{
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.scale-center-enter, .scale-center-leave-to{
+    transform: scale(0);
+    opacity: 0;
+}
+
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.3s;
 }

@@ -1,5 +1,5 @@
 var {passwordBooks} = require('../../models/passwordBooks')
-var QRcode = require('../../libs/QRreader')
+var QRcodeReader = require('../QRcodeReader')
 
 var passwordBooks_view = {
     name: 'passwordBooks',
@@ -21,7 +21,6 @@ var passwordBooks_view = {
                     </div>
                 </li>
             </ul>
-            <input type="file" accept="image/*" capture="camera">
         </section>
     `,
     data(){
@@ -59,7 +58,7 @@ var passwordBooks_view = {
 
     methods:{
         decryptPasswordBook(){
-            this.$el.querySelector('input[type="file"]').click()   
+            QRcodeReader.readQRcode()
         }
     }
 }

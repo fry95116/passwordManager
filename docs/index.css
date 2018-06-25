@@ -18,6 +18,19 @@
     to{transform: translateX(100%)}
 }
 
+.scale-center-enter-active{
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.scale-center-leave-active{
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.scale-center-enter, .scale-center-leave-to{
+    transform: scale(0);
+    opacity: 0;
+}
+
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.3s;
 }
@@ -428,7 +441,7 @@ html,body{
     height: 30px;
 }
 
-.QRreader-mask{
+#QRcode-reader{
     position: fixed;
     left: 0px;
     top: 0px;
@@ -438,7 +451,7 @@ html,body{
     overflow: hidden;
 }
 
-.QRreader-mask video{
+#QRcode-reader video{
     min-width: 100%;
     min-height: 100%;
     width: auto;
@@ -453,47 +466,47 @@ html,body{
     left: 50%;
 }
 
-.QRreader-mask .aperture{
+#QRcode-reader .aperture{
     position: relative;
     overflow: hidden;
     border: 2px solid white;
 }
 
-.QRreader-mask .aperture .vertex{
+#QRcode-reader .aperture .vertex{
     position: absolute;
     width: 10%;
     height: 10%;
 }
 
-.QRreader-mask .aperture .vertex.left-top{
+#QRcode-reader .aperture .vertex.left-top{
     left: 0;
     top: 0;
     border-left: 4px solid white;
     border-top: 4px solid white;
 }
 
-.QRreader-mask .aperture .vertex.right-top{
+#QRcode-reader .aperture .vertex.right-top{
     right: 0;
     top: 0;
     border-right: 4px solid white;
     border-top: 4px solid white;
 }
 
-.QRreader-mask .aperture .vertex.left-bottom{
+#QRcode-reader .aperture .vertex.left-bottom{
     left: 0;
     bottom: 0;
     border-left: 4px solid white;
     border-bottom: 4px solid white;
 }
 
-.QRreader-mask .aperture .vertex.right-bottom{
+#QRcode-reader .aperture .vertex.right-bottom{
     right: 0;
     bottom: 0;
     border-right: 4px solid white;
     border-bottom: 4px solid white;
 }
 
-.QRreader-mask .aperture .scan-line{
+#QRcode-reader .aperture .scan-line{
     position: absolute;
     left: 0;
     margin: 0;
@@ -509,7 +522,7 @@ html,body{
     FILTER: progid:DXImageTransform.Microsoft.Gradient(startColorStr=rgba(255, 255, 255, 0), endColorStr=rgba(255, 255, 255, 1));
 }
 
-.QRreader-mask .tips{
+#QRcode-reader .tips{
     margin-top: 0.5em;
     width: 100%;
     color: #fff;
@@ -517,7 +530,7 @@ html,body{
     font-size: smaller;
 }
 
-.QRreader-mask .btn{
+#QRcode-reader .btn{
     position: absolute;
     margin: 0;
     outline: none;
@@ -528,19 +541,19 @@ html,body{
     line-height: 1.0;
 }
 
-.QRreader-mask .btn-cancel{
+#QRcode-reader .btn-cancel{
     left: 0;
     top: 0;
     font-size: large;
 }
 
-.QRreader-mask .btn-switch{
+#QRcode-reader .btn-switch{
     left: 0;
     bottom: 0;
     font-size: large;
 }
 
-.QRreader-mask .btn-album{
+#QRcode-reader .btn-album{
     right: 0;
     bottom: 0;
     font-size: large;
@@ -551,8 +564,6 @@ html,body{
     to{top:90%;}
 }
 
-#QRreader-file-input{
-    width: 0;
-    height: 0;
-    outline: none;
+#QRcode-reader input[type="file"]{
+    display: none;
 }
