@@ -220,6 +220,7 @@
 
 
         async _startCapture() {
+                //TODO: 监听this._display.onloadedmetadata
                 await util.waitUntil(() => {
                     return this._display.videoWidth !== 0 
                         && this._display.videoHeight !== 0;
