@@ -79,27 +79,27 @@
     }
     exports.isMediaDevices = isMediaDevices
 
-    function castFileToDataUrl(file){
-        return new Promise(function(resolve, reject){
-            var fileReader = new FileReader()
-            fileReader.onload = function(){
-                resolve(this.result)
-            }
-            fileReader.readAsDataURL(file)
-        })
-    }
-    exports.castFileToDataUrl = castFileToDataUrl
+    // function castFileToDataUrl(file){
+    //     return new Promise(function(resolve, reject){
+    //         var fileReader = new FileReader()
+    //         fileReader.onload = function(){
+    //             resolve(this.result)
+    //         }
+    //         fileReader.readAsDataURL(file)
+    //     })
+    // }
+    // exports.castFileToDataUrl = castFileToDataUrl
     
-    function castDataUrlToImage(dataUrl){
-        return new Promise(function(resolve, reject){
-            var ret = new Image()
-            ret.onload = function(){
-                resolve(ret)
-            }
-            ret.onerror = reject
-            ret.src = dataUrl
-        })
-    }
-    exports.castDataUrlToImage = castDataUrlToImage
+    // function castDataUrlToImage(dataUrl){
+    //     return new Promise(function(resolve, reject){
+    //         var ret = new Image()
+    //         ret.onload = function(){
+    //             resolve(ret)
+    //         }
+    //         ret.onerror = reject
+    //         ret.src = dataUrl
+    //     })
+    // }
+    // exports.castDataUrlToImage = castDataUrlToImage
 
 })()

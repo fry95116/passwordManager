@@ -21,7 +21,7 @@ var QRcodeReader = new Vue({
             </div>
             <button class="btn btn-cancel">&lt; 返回</button>
             <button v-if="btn_switchCamera" class="btn btn-switch" @click="switchCamera">切换设备</button>
-            <button v-if="btn_readFromAlbum" class="btn btn-album">相册</button>
+            <button v-if="btn_readFromAlbum" class="btn btn-album" @click="readFromAlbum">相册</button>
 
             <input v-if="!support_UserMedia" class="fileReader-camera" type="file" accept="image/*" capture="camera">
             <input v-if="btn_readFromAlbum" class="fileReader-fileSystem" type="file" accept="image/*">
@@ -47,22 +47,29 @@ var QRcodeReader = new Vue({
         async readQRcode(){
             if(this.support_UserMedia){
                 var el_video = this.$el.querySelector('video')
-
-                await this.selectCamera()
+                var el_fileInput = this.$el.querySelector('.fileReader-fileSystem')
+                try{
+                    await this.selectCamera()
+                }
+                catch(err){
+                    throw err
+                }
                 this.hidden = false
 
                 var cameraQRcodeCatcher = new CameraQRcodeCatcher(el_video)
-                
+                var fileQRcodeCatcher = new FileQRcodeCatcher(el_fileInput)
+
                 var qrcode = await Promise.race([
                     cameraQRcodeCatcher.start(),
-                    // this.captureFromFile(),
+                    fileQRcodeCatcher.start(),
                     this.captureFromCancelButton()
                 ])
-                console.log(qrcode)
                 cameraQRcodeCatcher.stop()
-                
+                fileQRcodeCatcher.stop()
                 el_video.srcObject = null
                 this.hidden = true
+
+                return qrcode
             }
             else{
                 this.$el.querySelector('.fileReader-camera').click()
@@ -78,6 +85,10 @@ var QRcodeReader = new Vue({
                     resolve(null)
                 }
             })
+        },
+
+        readFromAlbum(){
+            this.$el.querySelector('.fileReader-fileSystem').click()
         },
 
         async switchCamera(){
@@ -131,8 +142,7 @@ class CameraQRcodeCatcher{
         this.context = this.canvas.getContext('2d')
         this.ROI = {left: 0, top: 0, width: 0, height: 0}
         this._isCapturing = false
-
-        // document.body.appendChild(this.canvas)
+        
     }
 
     /**
@@ -154,7 +164,7 @@ class CameraQRcodeCatcher{
             var imageData = this.context.getImageData(this.ROI.left, this.ROI.top, this.ROI.width, this.ROI.height)
             var ret = jsqr(imageData.data, this.ROI.width, this.ROI.height)
 
-            if(ret !== null) return ret
+            if(ret && ret.data) return ret.data
         }
     }
 
@@ -183,56 +193,82 @@ class CameraQRcodeCatcher{
             this.ROI.width = width_video
             this.ROI.height = Math.floor(width_video / ratio_video)
             this.ROI.left = 0
-            this.ROI.top = 0
+            this.ROI.top = height_video - this.ROI.height
         }
         this.canvas.width = width_video
         this.canvas.height = height_video
     }
 }
 
-class FileQRcodeParser{
-    constructor(fileInput, canvas){
+class FileQRcodeCatcher{
+    constructor(fileInput){
         this.fileInput = fileInput
-        this.canvas = canvas
+        this.canvas = document.createElement('canvas')
+        this.context = this.canvas.getContext('2d')
     }
 
     start(){
-        this.fileInput
+        return new Promise((resolve)=>{        
+            var _onChange = async ()=>{
+                this.fileInput.onchange = null
+                if(this.fileInput.files.length === 0) return null
+                
+                var file = this.fileInput.files[0]
+                try{
+                    var dataUrl = await this._toDataUrl(file)
+                    var img = await this._toImage(dataUrl)
+                }
+                catch(err){
+                    console.log(err)
+                    return null
+                }
+
+                var width_canvas = img.width
+                var height_canvas = img.height
+
+                this.canvas.width = width_canvas
+                this.canvas.height = width_canvas
+
+                this.context.drawImage(img, 0, 0)
+
+                var imageData = this.context.getImageData(0, 0, width_canvas, height_canvas)
+                var ret = jsqr(imageData.data, width_canvas, height_canvas)
+                
+                // var ret = await this._readQRcodeFromFile(this._fileInput.files[0])
+
+                if(ret && ret.data) ret = ret.data
+                else ret = null
+
+                resolve(ret)
+            }
+            this.fileInput.onchange = _onChange
+        })
     }
 
     stop(){
-
+        this.fileInput.onchange = null
     }
 
-    async _onChange(){
-        if(this.fileInput.files.length === 0) return null
-        
-        var file = this.fileInput.files[0]
-        try{
-            var dataUrl = await util.castFileToDataUrl(file)
-            var img = await util.castDataUrlToImage(dataUrl)
-        }
-        catch(err){
-            console.log(err)
-            return null
-        }
 
-        var width_canvas = img.width
-        var height_canvas = img.height
-
-        this._canvas.setAttribute('width', width_canvas + 'px')
-        this._canvas.setAttribute('height', height_canvas + 'px')
-
-        this._ctx.drawImage(img, 0, 0)
-
-        var imageData = this._ctx.getImageData(0, 0, width_canvas, height_canvas)
-        var ret = jsqr(imageData.data, width_canvas, height_canvas)
-        
-        // var ret = await this._readQRcodeFromFile(this._fileInput.files[0])
-
-        if(ret && ret.data) ret = ret.data
-        else ret = null
-
+    _toDataUrl(file){
+        return new Promise(function(resolve, reject){
+            var fileReader = new FileReader()
+            fileReader.onload = function(){
+                resolve(this.result)
+            }
+            fileReader.readAsDataURL(file)
+        })
+    }
+    
+    _toImage(dataUrl){
+        return new Promise(function(resolve, reject){
+            var ret = new Image()
+            ret.onload = function(){
+                resolve(ret)
+            }
+            ret.onerror = reject
+            ret.src = dataUrl
+        })
     }
 }
 

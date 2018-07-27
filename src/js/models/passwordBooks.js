@@ -3,8 +3,6 @@ var sha256 = require('sha256')
 
 var KEY_LOCALSTORAGE = "PASSWORDBOOKS"
 
-
-
 class PasswordBooks {
     constructor() {
         this._data = {}
@@ -41,6 +39,15 @@ class PasswordBooks {
     }
 
     /**
+     * 获取密码本
+     * @param {string} name - 密码本的名称
+     * @return {PasswordBook|null} - 对应的密码本
+     */
+    getPasswordBook(name){
+        if(name in this._data) return this._data[name]
+        else return null
+    }
+    /**
      * 将所有密码本存储至localstorage中
      * @throws {Error} -  localstorage不被支持
      */
@@ -71,7 +78,7 @@ class PasswordBooks {
         var obj = JSON.parse(str_rawData)
 
         for (var key in obj) {
-            this._data[key] = new PasswordBook(obj)
+            this._data[key] = new PasswordBook(obj[key])
         }
     }
 

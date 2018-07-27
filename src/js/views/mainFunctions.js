@@ -6,10 +6,12 @@ var actionBar = require('./actionBar')
 var toolBar = require('./toolBar')
 var passwordBooks = require('./components/passwordBooks')
 var newPasswordBook = require('./components/newPasswordBook')
+var newPage = require('./components/newPage')
 
 var components = {
     passwordBooks,
-    newPasswordBook
+    newPasswordBook,
+    newPage
 }
 
 var mainFunctions = new Vue({
@@ -62,6 +64,7 @@ var mainFunctions = new Vue({
                 toolBar.visiable = false
             }
         },
+        
         routeTo(frameName){
             var idx = findIndex(this.frameNames, (name)=> name === frameName)
             if(idx === -1) return

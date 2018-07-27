@@ -5,8 +5,10 @@
 var BigInteger = require('./BigInteger.js')
 var SecureRandom = require('./SecureRandom.js')
 var base64 = require('./base64.js')
-// "empty" RSA key constructor
+
 class RSAKey {
+    
+    /** "empty" RSA key constructor */
     constructor() {
         this.n = null
         this.e = 0
@@ -18,6 +20,10 @@ class RSAKey {
         this.coeff = null
     }
 
+    /**
+     * get public key
+     * @return {{n: string, e: string}} 公钥
+     */
     getPublic() {
         return {
             n: this.n.toString(16),
@@ -27,8 +33,8 @@ class RSAKey {
 
     /**
      * Set the public key fields N and e from hex strings
-     * @param {string} N - arguement N(format: hex string)
-     * @param {integer} E - argument E(format: hex string)
+     * @param {string} N arguement N(format: hex string)
+     * @param {integer} E argument E(format: hex string)
      */
     setPublic(N, E) {        
         if (N != null && E != null && N.length > 0 && E.length > 0) {
@@ -40,8 +46,8 @@ class RSAKey {
 
     /**
      * Perform raw public operation on "x": return x^e (mod n)
-     * @param {BigInteger} x - operate number
-     * @return {BigInteger} - x^e (mod n)
+     * @param {BigInteger} x operate number
+     * @return {BigInteger} x^e (mod n)
      */
     _doPublic(x) {
         return x.modPowInt(this.e, this.n)
@@ -49,8 +55,8 @@ class RSAKey {
 
     /**
      * Return the PKCS#1 RSA encryption of "text" as an even-length hex string
-     * @param {string} text - plaintext
-     * @return {string} - chipertext(format: hex string)
+     * @param {string} text plaintext
+     * @return {string} chipertext(format: hex string)
      */
     encrypt(text) {
         var m = pkcs1pad2(text, (this.n.bitLength() + 7) >> 3)
