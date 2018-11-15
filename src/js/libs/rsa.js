@@ -178,7 +178,7 @@ class RSAKey {
 
     setPrivate_encrypted(str){
         if(this.n === null || this.e === 0) throw new Error('no public key')
-        var args = str.split('\n')
+        var args = str.split('_')
         if(args.length !== 3) throw new Error('invalid private key string')
 
         var p = parseBigInt(base64.toHex(args[0]), 16) //hex string->bigInteger

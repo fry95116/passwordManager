@@ -265,6 +265,19 @@ html,body{
 
 
 
+.input-group textarea{
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 140px;
+    border: none;
+    border-radius: 10px;
+    margin: 8px 0px;
+    outline: none;
+    background-color: #eee;
+    font-size: 18px;
+    padding: 10px;
+    font-family: arial;
+}
 #newPasswordBook>div{
     width: 100%;
 }

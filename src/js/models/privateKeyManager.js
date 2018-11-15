@@ -1,6 +1,7 @@
-var {passwordBooks} = require('../models/passwordBooks')
+var passwordBooks = require('../models/passwordBooks')
 var RSAKey = require('../libs/rsa')
 var sha256 = require('sha256')
+var isNil = require('lodash.isnil')
 
 class PrivateKeyManager{
     constructor(){
@@ -28,16 +29,18 @@ class PrivateKeyManager{
 
     setPrivateKey(name, str_privateKey){
         var sign = sha256(str_privateKey)
-        var passwordBook = passwordBooks.getPasswordBook(name)
+        var passwordBook = passwordBooks.data[name]
 
-        if(passwordBook === null){
+        if(isNil(passwordBook)){
             throw new Error('passwordBook not exist')
         }
-        if(passwordBook._sign_privateKey !== sign){
+        if(passwordBook.sign_privateKey !== sign){
             throw new Error('sign not matched')
         }
 
-        this._privateKey = new RSAKey(str_privateKey)
+        this._privateKey = new RSAKey()
+        this._privateKey.setPublic(passwordBook.publicKey.n, passwordBook.publicKey.e)
+        this._privateKey.setPrivate_encrypted(str_privateKey)
         this._name = name
 
         if(this._seconds_retention > 0){

@@ -19,8 +19,9 @@ var mainFunctions = new Vue({
     template: `
         <div id="major-functions" @scroll="toggleTitleIfNecessary">
             <transition v-bind:name="transitionName">
-                <component v-bind:is="currentFrame" 
-                    @setActionBar="setActionBar" 
+                <component v-bind:is="currentFrame"
+                    v-bind:params = "currentParams"
+                    @setActionBar="setActionBar"
                     @setToolBar="setToolBar"
                     @route="routeTo">
                 </component>
@@ -30,13 +31,13 @@ var mainFunctions = new Vue({
     `,
     data:{
         currentIndex: 0,
+        currentParams: null,
         frameNames: Object.keys(components),
         transitionName:'',
         transitions:{
             default:'fade',
             'passwordBooks-newPasswordBook':'slide-leftIn',
             'newPasswordBook-passwordBooks':'slide-rightIn',
-
         }
     },
     computed:{
@@ -65,7 +66,10 @@ var mainFunctions = new Vue({
             }
         },
         
-        routeTo(frameName){
+        routeTo(frameName, params){
+            if(params) this.currentParams = params
+            else this.currentParams = null
+
             var idx = findIndex(this.frameNames, (name)=> name === frameName)
             if(idx === -1) return
 
@@ -79,7 +83,6 @@ var mainFunctions = new Vue({
                 this.transitionName = ''
             }
             this.currentIndex = idx
-            
         }
     },
     components:components

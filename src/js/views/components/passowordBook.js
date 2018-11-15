@@ -1,5 +1,5 @@
 var RSAKey = require('../../libs/rsa')
-var {passwordBooks} = require('../../models/passwordBooks')
+var passwordBooks = require('../../models/passwordBooks')
 var toolBar = require('../toolBar')
 
 var passwordBook = {
@@ -23,7 +23,7 @@ var passwordBook = {
                 <ul v-if="!encrypted" class="pages_brief">
                     <li v-for="(item, key) in pages_brief">
                         <div class="name">{{key}}</div> 
-                        <div class="primary-info">{{item}}</div>
+                        <div class="primary-info">{{item.primaryInfo}}</div>
                     </li>
                 </ul>
             </div>
@@ -49,17 +49,26 @@ var passwordBook = {
         },
         pages_brief(){
             if(this.encrypted) return null
-            else return {
-                test1: 123456,
-                adbtest2: 654321,
-                tedst3: 'abcdef',
-                test12: 123456,
-                adbtest22: 654321,
-                tedst32: 'abcdef',
-                test13: 123456,
-                adbtest23: 654321,
-                tedst33: 'abcdef'
+            else {
+                var key = this.privateKey
+                var ret = {}
+                var pages = passwordBooks.data[this.name].pages
+                for (name in pages){
+                    ret[name] = JSON.parse(key.decrypt(pages[name]))
+                }
+                return ret
             }
+            // else return {
+            //     test1: 123456,
+            //     adbtest2: 654321,
+            //     tedst3: 'abcdef',
+            //     test12: 123456,
+            //     adbtest22: 654321,
+            //     tedst32: 'abcdef',
+            //     test13: 123456,
+            //     adbtest23: 654321,
+            //     tedst33: 'abcdef'
+            // }
         }
     },
     methods:{

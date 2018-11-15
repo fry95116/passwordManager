@@ -1,6 +1,6 @@
 var QRcode = require('qrcode')
 var RSAKey = require('../../libs/rsa')
-var {passwordBooks, PasswordBook} = require('../../models/passwordBooks')
+var passwordBooks = require('../../models/passwordBooks')
 var dropDown = require('./dropdown')
 /* <input type="text" placeholder="RSA-1024">
 <span class="caret"></span> */
@@ -16,9 +16,9 @@ var newPasswordBook = {
                 <div v-if="!showQRcode" key="edit">
                     <div class="input-group">
                         <label>Name</label>
-                        <div class="input-wrapper" v-bind:class="{'with-error': error_name}">
+                        <div class="input-wrapper" v-bind:class="{'with-error': errMsg !== ''}">
                             <input type="text" placeholder="PasswordBook's name" v-model="name">
-                            <div class="msg-err">name required</div>
+                            <div class="msg-err">{{errMsg}}</div>
                         </div>
                     </div>
                     <div class="input-group">
@@ -83,7 +83,7 @@ var newPasswordBook = {
             keygen: new RSAKey(),
             dataUrl_QRcode: '',
 
-            error_name: false,
+            errMsg: '',
             showQRcode: false,
             generating: false
         }
@@ -92,10 +92,14 @@ var newPasswordBook = {
         generateKeygen(){
             // 输入检查
             if(this.name === ''){
-                this.error_name = true
+                this.errMsg = 'name required'
                 return
             }
-            else this.error_name = false
+            else if(this.name in passwordBooks.data){
+                this.errMsg = 'name exists'
+                return
+            }
+            else this.errMsg = ''
 
             // 生成新的密码本
             this.generating = true
@@ -121,8 +125,16 @@ var newPasswordBook = {
         },
 
         createPasswordBook(){
-            passwordBooks.add(new PasswordBook(this.name, this.keygen))
-            this.$emit('route', 'passwordBooks')
+            try{
+                passwordBooks.addPasswordBook({
+                    name: this.name,
+                    keygen: this.keygen
+                })
+                // passwordBooks.add(new PasswordBook(this.name, this.keygen))
+                this.$emit('route', 'passwordBooks')
+            }
+            catch(err){console.error('name exist')}
+
         }
     },
 

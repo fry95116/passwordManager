@@ -1,6 +1,6 @@
 var sha256 = require('sha256')
 
-var { passwordBooks } = require('../../models/passwordBooks')
+var passwordBooks = require('../../models/passwordBooks')
 var privateKeyManager = require('../../models/privateKeyManager')
 var QRcodeReader = require('../QRcodeReader')
 var passwordBook = require('./passowordBook')
@@ -31,10 +31,43 @@ var passwordBooks_view = {
 
         }
     },
+    
+    watch:{
+        'privateKeyManager.privateKey': function(val){
+            if(val){
+                this.$emit('setToolBar', [
+                    {
+                        icon: './img/newPage.svg',
+                        callback: () => {
+                            this.$emit('route', 'newPage', {passwordBookName: this.privateKeyManager.name})
+                        }
+                    },
+                    { icon: './img/edit.svg' },
+                    {
+                        icon: './img/lock.svg',
+                        callback: () => {
+                            this.lock()
+                        }
+                    }, // lock
+                ])
+            }
+            else{
+                this.$emit('setToolBar', [
+                    {
+                        icon: './img/newPasswordBook.svg',
+                        callback: () => {
+                            this.$emit('route', 'newPasswordBook')
+                        }
+                    },
+                    { icon: './img/edit.svg' }
+                ])
+            }
+        }
+    },
 
     computed: {
         passwordBookNames() {
-            return passwordBooks.getPasswordBookNames()
+            return Object.keys(passwordBooks.data)
         },
         passwordBookName_decrypted() {
             return privateKeyManager.name
@@ -43,6 +76,7 @@ var passwordBooks_view = {
             return privateKeyManager.privateKey
         }
     },
+
 
     methods: {
         async decryptPasswordBook(name) {
@@ -62,36 +96,16 @@ var passwordBooks_view = {
                 return
             }
 
-            privateKeyManager.setPrivateKey(name, privateKey)
-
-            this.$emit('setToolBar', [
-                {
-                    icon: './img/newPasswordBook.svg',
-                    callback: () => {
-                        this.$emit('route', 'newPage')
-                    }
-                },
-                { icon: './img/edit.svg' },
-                {
-                    icon: './img/lock.svg',
-                    callback: () => {
-                        this.lock()
-                    }
-                }, // lock
-            ])
+            try{
+                privateKeyManager.setPrivateKey(name, privateKey)
+            }
+            catch(err){
+                if(err.message === 'sign not matched') alert('密钥错误')
+            }
         },
 
         lock() {
             privateKeyManager.clearPrivateKey()
-            this.$emit('setToolBar', [
-                {
-                    icon: './img/newPasswordBook.svg',
-                    callback: () => {
-                        this.$emit('route', 'newPasswordBook')
-                    }
-                },
-                { icon: './img/edit.svg' }
-            ])
         }
     },
 
